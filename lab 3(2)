@@ -1,0 +1,121 @@
+#include<stdio.h>
+#define size 5
+int cirqueue[size],front=-1,rare=-1;
+
+void enqueue();
+int dequeue();
+void display();
+int isFull();
+int isEmpty();
+int peek();
+
+int main()
+{
+    int choice,k=1;
+    do{
+        printf("\n1.Enqueue\n2.dequeue\n3.dispaly\n4.peek\n5.exit\n");
+        printf("enter your choice:");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1:
+                enqueue();
+                break;
+            case 2:
+                int n=dequeue();
+                if(n==-1)
+                    printf("queue is empty!\n");
+                else
+                    printf("element %d is deleted",n);
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                int num=peek();
+                if(num==-1)
+                    printf("queue is empty!\n");
+                else
+                    printf("peek element is: %d",num);
+                break;
+            case 5:
+                k=0;
+        }
+    }while(k);
+}
+void enqueue()
+{
+
+    if(isFull())
+    {
+        printf("queue is full\n");
+        return;
+    }
+    int ele;
+    printf("enter element:");
+    scanf("%d",&ele);
+    if(front==-1)
+        front=0;
+    rare=(rare+1)%size;
+    cirqueue[rare]=ele;
+}
+int dequeue()
+{
+    if(isEmpty())
+    {
+        return -1;
+
+    }
+    else
+    {
+        int ele=cirqueue[front];
+        if(front==rare)
+            front=rare=-1;
+        else
+            front=(front+1)%size;
+        return ele;
+    }
+
+}
+void display()
+{
+    if(isEmpty())
+    {
+        printf("\nQueue is empty\n");
+        return;
+    }
+    else
+    {
+        printf("--------------------------\n");
+        printf("front:%d\n",front);
+        for(int i=front;i!=rare;i=(i+1)%size)
+        {
+            printf("%d\t",cirqueue[i]);
+        }
+        printf("%d",cirqueue[rare]);
+        printf("\nrare:%d",rare);
+        printf("\n--------------------------");
+    }
+}
+int isFull()
+{
+    if((rare+1)%size==front)
+        return 1;
+    return 0;
+}
+int isEmpty()
+{
+    if(front==-1)
+        return 1;
+    return 0;
+}
+int peek()
+{
+    if(isEmpty())
+    {
+        printf("queue is empty\n");
+        return -1;
+    }
+    return cirqueue[front];
+
+
+}
