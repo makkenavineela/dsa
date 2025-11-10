@@ -1,0 +1,123 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include <ctype.h>
+
+#define size 40
+char stack[size];
+int top=-1;
+
+void push(char item);
+char pop();
+char peek();
+int isempty();
+int priority(char item);
+void infixToPostfix(char infix[],char postfix[]);
+
+int main(){
+    char infix[size],postfix[size];
+    printf("enter equation:");
+    scanf("%s",infix);
+    infixToPostfix(infix,postfix);
+    printf("postfix is %s",postfix);
+}
+
+void infixToPostfix(char infix[],char postfix[])
+{
+    int i=0;
+    int j=0;
+    while(infix[i]!='\0')
+    {
+        if(isalnum(infix[i]))
+        {
+            postfix[j++]=infix[i];
+        }
+        else if(infix[i]=='(')
+        {
+            push(infix[i]);
+        }
+        else if(infix[i]==')')
+        {
+            while((!isempty()) && (peek()!='('))
+            {
+                postfix[j++]=pop();
+            }
+            if(!isempty() && peek() == '(')
+            {
+                char a=pop();
+            }
+        }
+        else
+        {
+            if(infix[i]=='^'){
+                while((!isempty())&&(priority(infix[i])<priority(peek())))
+                {
+                    postfix[j++]=pop();
+                }
+            }
+            else{
+                while((!isempty())&&(priority(infix[i])<=priority(peek())))
+                {
+                    postfix[j++]=pop();
+                }
+            }
+            push(infix[i]);
+        }
+        i++;
+    }
+    while(!isempty())
+    {
+        postfix[j++]=pop();
+    }
+    postfix[j]='\0';
+}
+
+void push(char item){
+    if(top>=size-1)
+        printf("stack overflow");
+    else{
+        stack[++top]=item;
+    }
+}
+
+char pop()
+{
+    if (isempty()) {
+        printf("stack underflow\n");
+        return '\0'; // Return an error character
+    }
+    else{
+        return stack[top--];
+    }
+}
+
+char peek()
+{
+    if(top==-1)
+    {
+        printf("stack is empty");
+        return '\0';
+    }
+    else{
+        return stack[top];
+    }
+}
+
+int isempty(){
+    if(top==-1)
+        return 1;
+    else
+        return 0;
+}
+
+int priority(char item)
+{
+    if(item=='^')
+        return 3;
+    else if(item=='*' || item=='/')
+        return 2;
+    else if(item=='+'|| item=='-')
+        return 1;
+    else
+        return 0;
+}
