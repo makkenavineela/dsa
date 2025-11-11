@@ -1,0 +1,114 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+    int data;
+    struct node* next;
+};
+struct node* head;
+void insetstart(int ele);
+void insertend(int ele);
+void insertinbtween(int ele,int postion);
+void display();
+void insetstart(int ele){
+    struct node* temp=(struct node*)malloc(sizeof(struct node));
+
+    temp->data=ele;
+    temp->next=NULL;
+    if(head==NULL)
+    {
+        head=temp;
+        return;
+    }
+    temp->next=head;
+    head=temp;
+}
+void insertend(int ele){
+    struct node* temp=(struct node*)malloc(sizeof(struct node));
+    temp->data=ele;
+    temp->next=NULL;
+    if(head==NULL)
+    {
+        head=temp;
+        return;
+    }
+    struct node* trans_ptr=head;
+    while(trans_ptr->next!=NULL)
+    {
+        trans_ptr=trans_ptr->next;
+    }
+    trans_ptr->next=temp;
+
+}
+void insertinbtween(int ele,int postion){
+    struct node* temp=(struct node*)malloc(sizeof(struct node));
+    temp->data=ele;
+    temp->next=NULL;
+    if(head==NULL)
+    {
+        head=temp;
+        return;
+    }
+    struct node* trans_ptr=head;
+    for(int i=0;i<postion-2;i++)
+    {
+        trans_ptr=trans_ptr->next;
+    }
+    temp->next=trans_ptr->next;
+    trans_ptr->next=temp;
+
+}
+void display(){
+    if(head==NULL)
+    {
+        printf("list is empty");
+        return;
+    }
+    struct node* trans_ptr=head;
+    printf("------------------------------------\n");
+    while(trans_ptr!=NULL)
+    {
+        printf("%d->\t",trans_ptr->data);
+        trans_ptr=trans_ptr->next;
+    }
+    printf("NULL");
+    printf("\n------------------------------------\n");
+
+}
+void main()
+{
+
+    head=NULL;
+    printf("1.insert at start\n2.insert at end\n3.insert at postion\n4.display\n5.exit\n");
+    int choice;
+    do{
+        printf("enter choice:");
+        scanf("%d",&choice);
+        int ele,postion;
+        switch(choice)
+        {
+        case 1:
+            printf("enter ele:");
+            scanf("%d",&ele);
+            insetstart(ele);
+            break;
+        case 2:
+            printf("enter ele:");
+            scanf("%d",&ele);
+            insertend(ele);
+            break;
+        case 3:
+            printf("enter ele:");
+            scanf("%d",&ele);
+            printf("enter postion:");
+            scanf("%d",&postion);
+            insertinbtween(ele,postion);
+            break;
+        case 4:
+            display();
+            break;
+        case 5:
+            printf("out of");
+
+        }
+    }while(choice!=5);
+}
