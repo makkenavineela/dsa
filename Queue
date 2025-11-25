@@ -1,0 +1,79 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+    int data;
+    struct node* next;
+};
+void enqueue(int ele);
+void dequeue();
+void display();
+struct node * head;
+
+int main()
+{
+    head=NULL;
+    int choice,k=1,ele;
+    printf("1.enqueue\n2.dequeue\n3.display\n4.exit\n");
+    while(k){
+        printf("enter your choice\n");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1:
+                printf("enter ele:");
+                scanf("%d",&ele);
+                enqueue(ele);
+                break;
+            case 2:
+                dequeue();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("exit\n");
+                k=0;
+                break;
+
+        }
+    }
+}
+void enqueue(int ele){
+    struct node* temp=(struct node*)malloc(sizeof(struct node));
+    temp->next=NULL;
+    temp->data=ele;
+    if(head==NULL){
+        head=temp;
+    }
+    else{
+        struct node *ptr=head;
+        while(ptr->next!=NULL){
+            ptr=ptr->next;
+        }
+        ptr->next=temp;
+    }
+}
+void dequeue(){
+    if(head==NULL)
+    {
+        printf("list is eempty\n");
+        return;
+    }
+    struct node *temp=head;
+    head=head->next;
+    free(temp);
+}
+void display()
+{
+    if(head==NULL)
+    {
+        printf("list is empty\n");
+    }
+    else{
+        struct node * ptr=head;;
+        while(ptr!=NULL){
+            printf("%d->\t",ptr->data);
+            ptr=ptr->next;
+        }
+        printf("NULL\n");
+    }
+}
